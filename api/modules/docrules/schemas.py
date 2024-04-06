@@ -12,3 +12,9 @@ class TextFormatRules(BaseModel):
 class AddDocRuleSchema(BaseModel):
     name: str
     data: list[TextFormatRules]
+
+class DocRuleInfo(BaseModel):
+    name: str
+
+class DocRulesInfo(BaseModel):
+    docrules: list[DocRuleInfo]

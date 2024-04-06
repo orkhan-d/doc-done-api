@@ -29,3 +29,6 @@ def get_available_docrules(user_id: int):
     )).all()
     
     return docrules
+
+def get_users_custom_docrules(user_id: int):
+    return session.query(DocRule).filter(DocRule.user_id==user_id).all()
