@@ -11,6 +11,7 @@ class Queue(Base):
     user_id: Mapped[int] = mapped_column()
     doc_type_id: Mapped[int] = mapped_column(ForeignKey('docrules.id'))
     fix: Mapped[bool] = mapped_column()
+    done: Mapped[bool] = mapped_column(default=False)
 
     created_at: Mapped[int] = mapped_column(default=int(dt.now(UTC).timestamp()))
 

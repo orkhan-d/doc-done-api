@@ -2,9 +2,10 @@ import json
 import os
 from uuid import uuid4
 from fastapi import APIRouter, Depends, File, Request, Response, UploadFile, status
+from fastapi.responses import JSONResponse
 
 from api.dependencies import get_token_header
-from api.modules.documents.schemas import AddQueueRow
+from api.modules.documents.schemas import AddQueueRow, UserQueueRows
 from api.modules.documents.crud import add_queue_row, get_user_documents
 
 FILES_DIR = os.path.join(os.getcwd(), 'files')
@@ -35,17 +36,20 @@ async def add_to_queue(
     )
     return Response(status_code=status.HTTP_201_CREATED)
 
-@router.get('/')
-async def get_queue_files(request: Request,):
+@router.get('/', response_model=UserQueueRows)
+async def get_queue_files(request: Request):
     rows = get_user_documents(json.loads(request.user_data)['id'])
     
-    return Response([
-        {
-            'id': r.id,
-            'filename': r.doc_name,
-            'file_type_id': r.doc_type_id,
-            'fix': r.fix,
-        } for r in rows
-    ],
+    return JSONResponse({
+        'files': [
+            {
+                'id': r.id,
+                'filename': r.doc_name,
+                'file_type_id': r.doc_type_id,
+                'fix': r.fix,
+                'done': r.done,
+            } for r in rows
+        ]
+    },
         status_code=status.HTTP_200_OK
     )
