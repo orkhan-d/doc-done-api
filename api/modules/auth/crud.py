@@ -25,6 +25,7 @@ def get_user_by_credentials(email: str, password: str):
     return user
 
 def get_user_by_token(token: str | None):
+    print(token)
     if token is None:
         raise AuthError()
     user = session.query(User).filter(User.token==token).first()

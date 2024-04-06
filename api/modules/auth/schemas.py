@@ -17,7 +17,3 @@ class UserInfoSchema(BaseModel):
 class SuccessAuthResponse(BaseModel):
     user: UserInfoSchema
     token: str | None
-
-class AuthErrorResponse(BaseModel):
-    code: int = 401
-    message: str = "Invalid credentials!"
