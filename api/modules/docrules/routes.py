@@ -8,6 +8,8 @@ from api.modules.docrules.crud import add_docrules, remove_docrules
 from api.modules.docrules.schemas import AddDocRuleSchema
 
 RULES_FILES_DIR = os.path.join(os.getcwd(), 'rule_files')
+if not os.path.exists(RULES_FILES_DIR):
+    os.makedirs(RULES_FILES_DIR)
 
 router = APIRouter(
     prefix='/docrules', tags=['docrules'],
