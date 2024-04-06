@@ -1,3 +1,4 @@
+from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from api.db import session
 from api.modules.docrules.exceptions import DocRulesExists
@@ -20,3 +21,11 @@ def remove_docrules(id_: int):
         raise NotFound('docrule')
 
     session.delete(docrules)
+
+def get_available_docrules(user_id: int):
+    docrules = session.query(DocRule).filter(or_(
+        DocRule.user_id==user_id,
+        DocRule.user_id.is_(None),
+    )).all()
+    
+    return docrules
