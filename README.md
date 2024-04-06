@@ -1,4 +1,4 @@
-# doc-done-api
+# doc-done-backend
 
 API for my DocDone project
 
@@ -6,7 +6,8 @@ API for my DocDone project
 
 - [X] Create auth module
 - [X] Create document formats module
-- [ ] Create documents module
+- [X] Create documents module
+- [ ] Add documents fixings
 - [ ] Test everything last time
 - [ ] Refactor
 
