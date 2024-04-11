@@ -13,7 +13,7 @@ class UserInfoSchema(BaseModel):
     id: int
     name: str
     email: str
+    token: str | None
 
 class SuccessAuthResponse(BaseModel):
     user: UserInfoSchema
-    token: str | None

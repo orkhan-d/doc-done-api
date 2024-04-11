@@ -20,7 +20,7 @@ router = APIRouter(
 @router.post('/add')
 async def add_docrule(data: AddDocRuleSchema, request: Request):
     dict_data = data.model_dump()
-    rules = dict_data['data']
+    rules = dict_data['rules']
     absolute_file_name = f'{uuid4()}.json'
 
     json.dump(
@@ -38,7 +38,10 @@ async def remove_docrule(docrule_id: int):
 async def get_users_docrules(request: Request):
     return JSONResponse(
         DocRulesInfo(docrules=[
-            DocRuleInfo(name=dr.name)
+            DocRuleInfo(
+                id=dr.id,
+                name=dr.name,
+            )
             for dr in get_users_custom_docrules(json.loads(request.user_data)['id'])
         ]).model_dump()
     )

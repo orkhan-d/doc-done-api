@@ -6,14 +6,16 @@ class Rule(BaseModel):
     value: list[Any] | str | int
 
 class TextFormatRules(BaseModel):
-    text_format: str
-    rules: list[Rule]
+    text_type: str
+    name: str
+    value: str
 
 class AddDocRuleSchema(BaseModel):
     name: str
-    data: list[TextFormatRules]
+    rules: list[TextFormatRules]
 
 class DocRuleInfo(BaseModel):
+    id: int
     name: str
 
 class DocRulesInfo(BaseModel):
