@@ -41,3 +41,6 @@ def get_user_documents(user_id: int):
 def get_file_by_queue_id(q_id: int):
     row = session.query(Queue).filter(Queue.id==q_id).one()
     return row
+
+def get_next_undone_in_queue():
+    return session.query(Queue).filter(Queue.done==False).first()
