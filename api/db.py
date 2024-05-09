@@ -6,7 +6,7 @@ from typing import Annotated
 from uuid import uuid4
 from sqlalchemy import BIGINT, create_engine
 from sqlalchemy.orm import (sessionmaker, scoped_session, DeclarativeBase, 
-                            Mapped, mapped_column)
+                            Mapped, mapped_column, relationship)
 
 engine = create_engine(os.environ['DB_URL'])
 Session = sessionmaker(bind=engine)

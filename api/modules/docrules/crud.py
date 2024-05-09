@@ -3,7 +3,7 @@ from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from api.db import session
 from api.modules.docrules.exceptions import DocRulesExists
-from api.modules.docrules.models import DocRule
+from api.modules.docrules.models import DocRule, Rule
 from api.exceptions import NotFound
 
 RULES_FILES_DIR = os.path.join(os.getcwd(), 'rule_files')
@@ -35,6 +35,9 @@ def get_available_docrules(user_id: int):
     )).all()
     
     return docrules
+
+def get_rules_db():
+    return session.query(Rule).all()
 
 def get_users_custom_docrules(user_id: int):
     return session.query(DocRule).filter(DocRule.user_id==user_id).all()

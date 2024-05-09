@@ -20,3 +20,16 @@ class DocRuleInfo(BaseModel):
 
 class DocRulesInfo(BaseModel):
     docrules: list[DocRuleInfo]
+
+class ValueInfo(BaseModel):
+    id: int
+    value: str
+
+class RuleInfo(BaseModel):
+    id: int
+    name: str
+    type: str
+    values: list[ValueInfo]
+
+class RuleList(BaseModel):
+    rules: list[RuleInfo]
