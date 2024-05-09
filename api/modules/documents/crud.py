@@ -28,7 +28,7 @@ def add_queue_row(user_id: int,
 def remove_old_files(user_id: int):
     rows = session.query(Queue).filter(and_(
         Queue.user_id==user_id,
-        Queue.created_at+3600<dt.now(UTC).timestamp()
+        Queue.created_at+3*24*60*60<dt.now(UTC).timestamp()
     )).all()
     [session.delete(r) for r in rows]
     session.commit()
@@ -37,3 +37,7 @@ def get_user_documents(user_id: int):
     remove_old_files(user_id)
     rows = session.query(Queue).filter(Queue.user_id==user_id).all()
     return rows
+
+def get_file_by_queue_id(q_id: int):
+    row = session.query(Queue).filter(Queue.id==q_id).one()
+    return row
