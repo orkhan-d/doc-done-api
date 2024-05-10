@@ -1,4 +1,6 @@
 from typing import Any
+
+from sqlalchemy import ForeignKey
 from api.db import Base, intpk, Mapped, mapped_column, relationship
 
 class DocRule(Base):
@@ -37,7 +39,7 @@ class Value(Base):
 
     id: Mapped[intpk]
     value: Mapped[str] = mapped_column(unique=True)
-    rule_id: Mapped[int] = mapped_column()
+    rule_id: Mapped[int] = mapped_column(ForeignKey('rules.id'))
 
     def __init__(self,
                  value: str,
