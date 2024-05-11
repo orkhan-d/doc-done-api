@@ -25,6 +25,8 @@ class Rule(Base):
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
     type: Mapped[str] = mapped_column()
+    definition: Mapped[str | None] = mapped_column()
+    
     values: Mapped[list["Value"]] = relationship("Value", backref='rule', lazy=True)
 
     def __init__(self,
