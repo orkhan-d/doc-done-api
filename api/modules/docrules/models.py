@@ -1,19 +1,19 @@
 from typing import Any
 
 from sqlalchemy import ForeignKey
-from api.db import Base, intpk, Mapped, mapped_column, relationship
+from api.db import Base, intpk, Mapped, mapped_column, relationship, BIGINT
 
 class DocRule(Base):
     __tablename__ = 'docrules'
 
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
-    user_id: Mapped[int | None] = mapped_column()
+    user_id: Mapped[BIGINT] = mapped_column(ForeignKey('users.id'))
     rules_file: Mapped[str] = mapped_column()
 
     def __init__(self,
                  name: str,
-                 user_id: int | None,
+                 user_id: int,
                  rules_file: str):
         self.name = name
         self.user_id = user_id
