@@ -49,7 +49,8 @@ def fix_document(document_name: str, rules_file: str) -> str:
                 case 'font-size':
                     custom_style.font.size = Pt(float(rule.value)) # type: ignore
                 case 'font-family':
-                    custom_style.font.name = rule.value # type: ignore
+                    value = get_value_by_id(int(rule.value))
+                    custom_style.font.name = value.value # type: ignore
                 case 'bold':
                     custom_style.font.bold = rule.value=='1' # type: ignore
                 case 'italic':
@@ -89,6 +90,10 @@ def fix_document(document_name: str, rules_file: str) -> str:
                             custom_style.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.RIGHT # type: ignore
                         case 'justify':
                             custom_style.paragraph_format.alignment = WD_PARAGRAPH_ALIGNMENT.JUSTIFY # type: ignore
+                case 'subscript':
+                    custom_style.font.subscript = rule.value=='1' # type: ignore
+                case 'superscript':
+                    custom_style.font.superscript = rule.value=='1' # type: ignore
 
     # Apply the custom style to a paragraph
     for paragraph in document.paragraphs:
