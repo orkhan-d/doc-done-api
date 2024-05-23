@@ -39,7 +39,6 @@ def set_user_token(uid: int) -> str:
 
     token = str(uuid4())
     user.token = token
-    print(token)
     session.commit()
     return token
 

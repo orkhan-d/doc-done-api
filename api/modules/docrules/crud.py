@@ -3,12 +3,12 @@ from sqlalchemy import or_
 from sqlalchemy.exc import IntegrityError
 from api.db import session
 from api.modules.docrules.exceptions import DocRulesExists
-from api.modules.docrules.models import DocRule, Rule
+from api.modules.docrules.models import DocRule, Rule, Value
 from api.exceptions import NotFound
 
 RULES_FILES_DIR = os.path.join(os.getcwd(), 'rule_files')
 
-def add_docrules(name: str, user_id: int | None, rules_file: str):
+def add_docrules(name: str, user_id: int, rules_file: str):
     try:
         docrules = DocRule(name, user_id, rules_file)
         session.add(docrules)
@@ -41,3 +41,9 @@ def get_rules_db():
 
 def get_users_custom_docrules(user_id: int):
     return session.query(DocRule).filter(DocRule.user_id==user_id).all()
+
+def get_value_by_id(value_id: int):
+    value = session.query(Value).filter(Value.id==value_id).first()
+    if not value:
+        raise NotFound('value')
+    return value

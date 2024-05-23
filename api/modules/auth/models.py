@@ -17,10 +17,8 @@ class User(Base):
 
     def __init__(self,
                  name: str,
-                 username: str,
                  email: str,
                  password: str):
         self.name = name
-        self.username = username
         self.email = email
         self.password = password

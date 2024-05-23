@@ -1,5 +1,3 @@
-from typing import Any
-
 from sqlalchemy import ForeignKey
 from api.db import Base, intpk, Mapped, mapped_column, relationship, BIGINT
 
@@ -8,7 +6,7 @@ class DocRule(Base):
 
     id: Mapped[intpk]
     name: Mapped[str] = mapped_column(unique=True)
-    user_id: Mapped[BIGINT] = mapped_column(ForeignKey('users.id'))
+    user_id: Mapped[BIGINT] = mapped_column(ForeignKey('users.id', ondelete='CASCADE'))
     rules_file: Mapped[str] = mapped_column()
 
     def __init__(self,
@@ -16,7 +14,7 @@ class DocRule(Base):
                  user_id: int,
                  rules_file: str):
         self.name = name
-        self.user_id = user_id
+        self.user_id = user_id # type: ignore
         self.rules_file = rules_file
 
 class Rule(Base):
@@ -40,7 +38,7 @@ class Value(Base):
     __tablename__ = 'values'
 
     id: Mapped[intpk]
-    value: Mapped[str] = mapped_column(unique=True)
+    value: Mapped[str] = mapped_column(unique=False)
     rule_id: Mapped[int] = mapped_column(ForeignKey('rules.id'))
 
     def __init__(self,

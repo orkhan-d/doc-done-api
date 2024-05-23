@@ -6,7 +6,7 @@ from fastapi.responses import FileResponse, JSONResponse
 
 from api.dependencies import get_token_header
 from api.modules.documents.schemas import AddQueueRow, UserQueueRows
-from api.modules.documents.crud import add_queue_row, get_user_documents, get_file_by_queue_id
+from api.modules.documents.crud import add_queue_row, delete_queue_row, get_user_documents, get_file_by_queue_id
 
 FILES_DIR = os.path.join(os.getcwd(), 'files')
 if not os.path.exists(FILES_DIR):
@@ -16,6 +16,15 @@ router = APIRouter(
     prefix='/queue', tags=['queue'],
     dependencies=[Depends(get_token_header)]
 )
+
+@router.delete('/{file_id}')
+async def delete_from_queue(request: Request, file_id: int):
+    user_id = json.loads(request.user_data)['id']
+    done = delete_queue_row(user_id, file_id)
+    if done:
+        return Response(status_code=status.HTTP_204_NO_CONTENT)
+    else:
+        return Response(status_code=status.HTTP_403_FORBIDDEN)
 
 @router.post('/add')
 async def add_to_queue(
@@ -34,7 +43,7 @@ async def add_to_queue(
         data.doc_type_id,
         data.fix
     )
-    return Response(status_code=status.HTTP_201_CREATED)
+    return JSONResponse({"status": "done"}, status_code=status.HTTP_201_CREATED)
 
 @router.get('/', response_model=UserQueueRows)
 async def get_queue_files(request: Request):
@@ -55,6 +64,13 @@ async def get_queue_files(request: Request):
         status_code=status.HTTP_200_OK
     )
 
+@router.get('/{file_id}/result')
+async def download_result(request: Request, file_id: int):
+    filename = get_file_by_queue_id(file_id).result
+    if filename:
+        print(os.path.join('results', filename))
+        return FileResponse(os.path.join('results', filename), media_type='application/octet-stream', filename=filename)
+    
 @router.get('/{file_id}')
 async def download_file(request: Request, file_id: int):
     filename = get_file_by_queue_id(file_id).doc_name

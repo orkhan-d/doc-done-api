@@ -55,6 +55,7 @@ async def get_rules(request: Request):
             RuleInfo(
                 id=rule.id,
                 name=rule.name,
+                definition=rule.definition,
                 type=rule.type,
                 values=[
                     ValueInfo(

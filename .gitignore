@@ -161,5 +161,6 @@ cython_debug/
 
 rule_files/
 files/
+results/
 result.docx
 test.docx

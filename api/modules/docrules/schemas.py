@@ -28,6 +28,7 @@ class ValueInfo(BaseModel):
 class RuleInfo(BaseModel):
     id: int
     name: str
+    definition: str | None
     type: str
     values: list[ValueInfo]
 
